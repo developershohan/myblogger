@@ -1894,6 +1894,37 @@
 			rtl: rtl_setting,
 		});
 	}
+// post gallery 
+	var slider = new Swiper('.post_gallery', {
+		slidesPerView: 1,
+		loop: true,
+		rtl: rtl_setting,
+		// Navigation arrows
+		navigation: {
+			nextEl: ".about-button-next",
+			prevEl: ".about-button-prev",
+		},
+		breakpoints: {  
+			'1400': {
+				slidesPerView: 1,
+			},
+			'1200': {
+				slidesPerView: 1,
+			},
+			'992': {
+				slidesPerView: 1,
+			},
+			'768': {
+				slidesPerView: 1,
+			},
+			'576': {
+				slidesPerView: 1,
+			},
+			'0': {
+				slidesPerView: 1,
+			},
+		},
+	});
 
 	var slider = new Swiper('.award__slider-active', {
 		slidesPerView: 4,
