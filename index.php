@@ -16,7 +16,9 @@
                         <?php endwhile; else: ?>
                         <p><?php esc_html_e('Sorry, no posts matched your criteria.'); ?></p>
                     <?php endif; ?>
-                    <div class="tp-pagination tp-pagination-style-2 mt-20">
+
+                    <?php myblogger_pagination('<i class="fa-regular fa-arrow-left"></i>Prev', '<i class="fa-regular fa-arrow-right"></i>', '', ['class' => '']) ?>
+                    <!-- <div class="tp-pagination tp-pagination-style-2 mt-20">
                         <nav>
                             <ul>
                                 <li>
@@ -57,7 +59,7 @@
                                 </li>
                             </ul>
                         </nav>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="col-xxl-4 col-lg-4">

@@ -72,3 +72,69 @@ function myblogger_social_media()
 <?php
 
 }
+
+add_filter( 'post_thumbnail_html', 'remove_thumbnail_dimensions', 10, 3 );
+
+function remove_thumbnail_dimensions( $html, $post_id, $post_image_id ) {
+    $html = preg_replace( '/(width|height)=\"\d*\"\s/', "", $html );
+    return $html;
+}
+
+/**
+ *
+ * pagination
+ */
+if ( !function_exists( 'myblogger_pagination' ) ) {
+
+    function _myblogger_pagi_callback( $pagination ) {
+        return $pagination;
+    }
+
+    //page navegation
+    function myblogger_pagination( $prev, $next, $pages, $args ) {
+        global $wp_query, $wp_rewrite;
+        $menu = '';
+        $wp_query->query_vars['paged'] > 1 ? $current = $wp_query->query_vars['paged'] : $current = 1;
+
+        if ( $pages == '' ) {
+            global $wp_query;
+            $pages = $wp_query->max_num_pages;
+
+            if ( !$pages ) {
+                $pages = 1;
+            }
+
+        }
+
+        $pagination = [
+            'base'      => add_query_arg( 'paged', '%#%' ),
+            'format'    => '',
+            'total'     => $pages,
+            'current'   => $current,
+            'prev_text' => $prev,
+            'next_text' => $next,
+            'type'      => 'array',
+        ];
+
+        //rewrite permalinks
+        if ( $wp_rewrite->using_permalinks() ) {
+            $pagination['base'] = user_trailingslashit( trailingslashit( remove_query_arg( 's', get_pagenum_link( 1 ) ) ) . 'page/%#%/', 'paged' );
+        }
+
+        if ( !empty( $wp_query->query_vars['s'] ) ) {
+            $pagination['add_args'] = ['s' => get_query_var( 's' )];
+        }
+
+        $pagi = '';
+        if ( paginate_links( $pagination ) != '' ) {
+            $paginations = paginate_links( $pagination );
+            $pagi .= '<div class="tp-pagination tp-pagination-style-2 mt-20"><nav><ul>';
+            foreach ( $paginations as $key => $pg ) {
+                $pagi .= '<li>' . $pg . '</li>';
+            }
+            $pagi .= '</ul></nav></div>';
+        }
+
+        print _myblogger_pagi_callback( $pagi );
+    }
+}
