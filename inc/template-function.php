@@ -15,7 +15,6 @@ function myblogger_header()
 
 }
 
-
 // myblogger_menu
 function myblogger_menu()
 {
@@ -138,3 +137,31 @@ if ( !function_exists( 'myblogger_pagination' ) ) {
         print _myblogger_pagi_callback( $pagi );
     }
 }
+function myblogger_get_tags() {
+    $tags = get_tags();
+    if ($tags) {
+        foreach($tags as $tag) {
+            $tag_link = get_tag_link($tag->term_id);
+            echo '<a href="' . esc_url($tag_link) . '">' . esc_html($tag->name) . '</a>';
+        }
+    } else {
+        echo '<span>No tags found</span>';
+    }
+}
+
+function myblogger_social_share() {
+    // Get the current post URL and title
+    $post_url   = urlencode(get_permalink());
+    $post_title = urlencode(get_the_title());
+
+    // Social media share URLs
+    $linkedin_url = 'https://www.linkedin.com/shareArticle?mini=true&url=' . $post_url . '&title=' . $post_title;
+    $twitter_url  = 'https://twitter.com/intent/tweet?url=' . $post_url . '&text=' . $post_title;
+    $facebook_url = 'https://www.facebook.com/sharer/sharer.php?u=' . $post_url;
+
+    // Output social links
+    echo '<a href="' . esc_url($linkedin_url) . '" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>';
+    echo '<a href="' . esc_url($twitter_url) . '" target="_blank"><i class="fab fa-twitter"></i></a>';
+    echo '<a href="' . esc_url($facebook_url) . '" target="_blank"><i class="fab fa-facebook-f"></i></a>';
+}
+
