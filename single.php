@@ -64,6 +64,7 @@
                         <?php endwhile; else: ?>
                         <p><?php esc_html_e('Sorry, no posts matched your criteria.'); ?></p>
                     <?php endif; ?>
+
                     <?php
                     // Define the custom post type
                     $post_type = 'post'; // You can change this to your desired post type
@@ -178,6 +179,18 @@
                     <?php else: ?>
                         <p>No related posts found.</p>
                     <?php endif; ?>
+
+                    <?php if (have_posts()): ?>
+                        <?php while (have_posts()):
+                            the_post(); ?>
+                            <?php
+
+                            if (comments_open() || get_comments_number()):
+                                comments_template();
+                            endif; ?>
+                        <?php endwhile; ?>
+                    <?php endif; ?>
+
                 </div>
             </div>
 
